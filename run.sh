@@ -1,0 +1,1 @@
+./build.sh && java -jar target/ArmatureMC.jar
