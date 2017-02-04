@@ -26,10 +26,10 @@
                 <filtering>true</filtering>
                 <directory>${basedir}/src/main/resources/</directory>
                 <includes>
-                    <include>*.yml</include>
-                    <include>*.fxml</include>
-                    <include>*.css</include>
-                    <include>*.png</include>
+                    <include>**/*.yml</include>
+                    <include>**/*.fxml</include>
+                    <include>**/*.css</include>
+                    <include>**/*.png</include>
                 </includes>
             </resource>
         </resources>
