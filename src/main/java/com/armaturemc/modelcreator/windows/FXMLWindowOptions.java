@@ -1,8 +1,11 @@
 package com.armaturemc.modelcreator.windows;
 
 import com.armaturemc.modelcreator.ArmatureModelCreator;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.stage.*;
+
+import java.io.IOException;
 
 /**
  * @author Andrew Tran
@@ -40,6 +43,18 @@ public class FXMLWindowOptions {
     public static FXMLWindowOption closeAction(ClosingAction closingAction){
         return (stage, scene, fxmlWindow) -> fxmlWindow.addClosingAction(closingAction);
     }
+    public static FXMLWindowOption promptShutdown(){
+        return FXMLWindowOptions.closeAction((stage, scene, fxmlWindow, windowEvent) -> {
+            windowEvent.consume();
+            Platform.runLater(() -> {
+                try {
+                    ArmatureModelCreator.getInstance().promptShutdown();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+        });
+    }
     public static FXMLWindowOption automaticTop(ArmatureModelCreator.WindowType windowType){
         return new FXMLWindowOption() {
             ArmatureModelCreator.WindowType previousWindowType;
@@ -52,7 +67,9 @@ public class FXMLWindowOptions {
                 fxmlWindow.addClosingAction(new ClosingAction() {
                     @Override
                     public void close(Stage stage, Scene scene, FXMLWindow fxmlWindow, WindowEvent windowEvent) {
-                        ArmatureModelCreator.getInstance().setTopWindow(previousWindowType, previousFXMLWindow);
+                        if (previousWindowType != null && previousFXMLWindow != null){
+                            ArmatureModelCreator.getInstance().setTopWindow(previousWindowType, previousFXMLWindow);
+                        }
                     }
                 });
             }
