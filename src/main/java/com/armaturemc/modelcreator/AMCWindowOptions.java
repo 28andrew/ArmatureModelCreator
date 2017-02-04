@@ -32,4 +32,7 @@ public class AMCWindowOptions {
     public static AMCWindowOption owner(Window owner){
         return (stage, scene) -> stage.initOwner(owner);
     }
+    public static AMCWindowOption css(String path){
+        return (stage, scene) -> scene.getStylesheets().add(path);
+    }
 }
