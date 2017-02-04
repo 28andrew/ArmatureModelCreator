@@ -4,6 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,7 +21,7 @@ public class FXMLWindow implements AMCWindow{
     private AMCWindowOption[] amcWindowOptions;
 
     public static FXMLWindow fromArmatureMCFile(String fxmlFile, AMCWindowOption... amcWindowOptions) throws IOException {
-        return fromInputStream(ArmatureModelCreator.getInstance().getClass().getResourceAsStream(fxmlFile), amcWindowOptions);
+        return fromInputStream(ArmatureModelCreator.getInstance().getClass().getResourceAsStream("/" + fxmlFile), amcWindowOptions);
     }
 
     public static FXMLWindow fromInputStream(InputStream inputStream, AMCWindowOption... amcWindowOptions) throws  IOException{
@@ -30,7 +31,7 @@ public class FXMLWindow implements AMCWindow{
     public static FXMLWindow fromExistingStage(Object fxml, Stage stage, AMCWindowOption... amcWindowOptions) throws IOException {
         FXMLWindow fxmlWindow = null;
         if (fxml instanceof String){
-            fxmlWindow = fromArmatureMCFile("/" + fxml, amcWindowOptions);
+            fxmlWindow = fromArmatureMCFile((String) fxml, amcWindowOptions);
         }else if (fxml instanceof InputStream){
             fxmlWindow = new FXMLWindow((InputStream) fxml, amcWindowOptions);
         }
@@ -92,5 +93,9 @@ public class FXMLWindow implements AMCWindow{
 
     public void setParent(Parent parent) {
         this.parent = parent;
+    }
+
+    public Window getWindow(){
+        return scene.getWindow();
     }
 }
