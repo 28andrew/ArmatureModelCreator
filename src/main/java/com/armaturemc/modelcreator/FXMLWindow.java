@@ -19,27 +19,31 @@ public class FXMLWindow implements AMCWindow{
     private Scene scene;
     private AMCWindowOption[] amcWindowOptions;
 
-    public static FXMLWindow fromFile(String fxmlFile, AMCWindowOption... amcWindowOptions) throws IOException {
-        return new FXMLWindow(ArmatureModelCreator.getInstance().getClass().getResourceAsStream(fxmlFile), amcWindowOptions);
+    public static FXMLWindow fromArmatureMCFile(String fxmlFile, AMCWindowOption... amcWindowOptions) throws IOException {
+        return fromInputStream(ArmatureModelCreator.getInstance().getClass().getResourceAsStream(fxmlFile), amcWindowOptions);
     }
 
-    public FXMLWindow(InputStream fxml, AMCWindowOption... amcWindowOptions) throws IOException {
-        parent = fxmlLoader.load(fxml);
-        this.amcWindowOptions = amcWindowOptions;
-        if (Arrays.asList(amcWindowOptions).contains(AMCWindowOptions.AUTO_START)){
-            start();
-        }
+    public static FXMLWindow fromInputStream(InputStream inputStream, AMCWindowOption... amcWindowOptions) throws  IOException{
+        return new FXMLWindow(inputStream, amcWindowOptions);
     }
 
     public static FXMLWindow fromExistingStage(Object fxml, Stage stage, AMCWindowOption... amcWindowOptions) throws IOException {
         FXMLWindow fxmlWindow = null;
         if (fxml instanceof String){
-            fxmlWindow = fromFile("/" + fxml, amcWindowOptions);
+            fxmlWindow = fromArmatureMCFile("/" + fxml, amcWindowOptions);
         }else if (fxml instanceof InputStream){
             fxmlWindow = new FXMLWindow((InputStream) fxml, amcWindowOptions);
         }
         fxmlWindow.setStage(stage);
         return fxmlWindow;
+    }
+
+    FXMLWindow(InputStream fxml, AMCWindowOption... amcWindowOptions) throws IOException {
+        parent = fxmlLoader.load(fxml);
+        this.amcWindowOptions = amcWindowOptions;
+        if (Arrays.asList(amcWindowOptions).contains(AMCWindowOptions.AUTO_START)){
+            start();
+        }
     }
 
     @Override
@@ -76,5 +80,17 @@ public class FXMLWindow implements AMCWindow{
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    public FXMLLoader getFxmlLoader() {
+        return fxmlLoader;
+    }
+
+    public Parent getParent() {
+        return parent;
+    }
+
+    public void setParent(Parent parent) {
+        this.parent = parent;
     }
 }
