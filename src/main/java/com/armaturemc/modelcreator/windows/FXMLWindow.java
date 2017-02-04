@@ -1,15 +1,19 @@
 package com.armaturemc.modelcreator.windows;
 
 import com.armaturemc.modelcreator.ArmatureModelCreator;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 /**
  * @author Andrew Tran
@@ -20,6 +24,8 @@ public class FXMLWindow implements AMCWindow{
     private Parent parent;
     private Scene scene;
     private AMCWindowOption[] amcWindowOptions;
+    protected HashMap<String,Object> optionStorage = new HashMap<>();
+    private ArrayList<ClosingAction> closingActions = new ArrayList<>();
 
     public static FXMLWindow fromArmatureMCFile(String fxmlFile, AMCWindowOption... amcWindowOptions) throws IOException {
         return fromInputStream(ArmatureModelCreator.getInstance().getClass().getResourceAsStream("/" + fxmlFile), amcWindowOptions);
@@ -54,10 +60,20 @@ public class FXMLWindow implements AMCWindow{
         stage.setScene(scene);
         if (amcWindowOptions != null){
             for (AMCWindowOption amcWindowOption : getAmcWindowOptions()){
-                amcWindowOption.run(stage, scene);
+                amcWindowOption.run(stage, scene, this);
             }
         }
         stage.show();
+        FXMLWindow fxmlWindow = this;
+        stage.setOnCloseRequest(event -> {
+            for (ClosingAction closingAction : closingActions){
+                closingAction.close(stage, scene, fxmlWindow, event);
+            }
+        });
+    }
+
+    public void addClosingAction(ClosingAction closingAction){
+        closingActions.add(closingAction);
     }
 
     public AMCWindowOption[] getAmcWindowOptions() {
