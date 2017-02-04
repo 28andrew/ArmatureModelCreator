@@ -1,12 +1,16 @@
 package com.armaturemc.modelcreator;
 
-import com.armaturemc.modelcreator.windows.*;
+import com.armaturemc.modelcreator.windows.DialogWindow;
+import com.armaturemc.modelcreator.windows.DialogWindowOptions;
+import com.armaturemc.modelcreator.windows.FXMLWindow;
+import com.armaturemc.modelcreator.windows.FXMLWindowOptions;
 import javafx.application.Application;
-import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 
@@ -27,9 +31,8 @@ public class ArmatureModelCreator extends Application{
     }
 
     public FXMLWindow mainApplicationWindow, welcomeWindow;
-
     public WindowType topWindowType = WindowType.MAIN;
-    public FXMLWindow topFXMLWindow;
+    public FXMLWindow topFXMLWindow = null;
     @Override
     public void start(Stage primaryStage) throws Exception {
         System.out.println("Java FX Program is starting...");
@@ -41,6 +44,7 @@ public class ArmatureModelCreator extends Application{
                 FXMLWindowOptions.modality(Modality.APPLICATION_MODAL),
                 FXMLWindowOptions.css("common.css"),
                 FXMLWindowOptions.css("themes/light.css"),
+                FXMLWindowOptions.promptShutdown(),
                 FXMLWindowOptions.automaticTop(WindowType.MAIN),
                 FXMLWindowOptions.AUTO_START
         );
@@ -53,39 +57,45 @@ public class ArmatureModelCreator extends Application{
                 FXMLWindowOptions.css("common.css"),
                 FXMLWindowOptions.owner(mainApplicationWindow.getWindow()),
                 FXMLWindowOptions.css("themes/light.css"),
-                FXMLWindowOptions.closeAction(new ClosingAction() {
-                    @Override
-                    public void close(Stage stage, Scene scene, FXMLWindow fxmlWindow, WindowEvent windowEvent) {
-                        try {
-                            promptShutdown();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }),
+                FXMLWindowOptions.promptShutdown(),
                 FXMLWindowOptions.automaticTop(WindowType.WELCOME_INITIAL),
                 FXMLWindowOptions.AUTO_START
         );
     }
 
     public void setTopWindow(WindowType windowType, FXMLWindow fxmlWindow){
+        if (windowType == null){
+            throw new IllegalArgumentException("windowType is null");
+        }
+        if (fxmlWindow == null){
+            throw new IllegalArgumentException("fxmlWindow is null");
+        }
         setTopWindowType(windowType);
         setTopFXMLWindow(fxmlWindow);
-        System.out.println("Top Window is now: " + windowType.name());
+        System.out.println("Window Type: " + windowType);
+        System.out.println("Controller Class: " + getTopFXMLWindow().getFxmlLoader().getController().getClass().getCanonicalName());
     }
 
     public void promptShutdown() throws IOException {
-        FXMLWindow.fromArmatureMCFile(
-            "promptShutdown.fxml",
-                FXMLWindowOptions.name("Confirm Shutdown"),
-                FXMLWindowOptions.dimensions(480, 240),
-                FXMLWindowOptions.modality(Modality.WINDOW_MODAL),
-                FXMLWindowOptions.css("common.css"),
-                FXMLWindowOptions.owner(mainApplicationWindow.getWindow()),
-                FXMLWindowOptions.css("themes/light.css"),
-                FXMLWindowOptions.automaticTop(WindowType.PROMPT_SHUTDOWN),
-                FXMLWindowOptions.AUTO_START
+        DialogWindow.newDialogWindow(Alert.AlertType.CONFIRMATION, new ButtonType[]{
+            new ButtonType("Exit", ButtonBar.ButtonData.APPLY),
+            new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE)
+        },
+            DialogWindowOptions.title("Confirm Exit"),
+            DialogWindowOptions.headerText("Are you sure you would like to exit Armature Model Creator?"),
+            //DialogWindowOptions.modality(Modality.WINDOW_MODAL),
+            //DialogWindowOptions.owner(getTopFXMLWindow().getWindow()),
+            DialogWindowOptions.handler((buttonResult, dialogWindow) -> {
+            if (buttonResult.isPresent() && buttonResult.get().getButtonData() == ButtonBar.ButtonData.APPLY){
+                    shutdown();
+                }
+            }),
+            DialogWindowOptions.AUTO_START
         );
+    }
+
+    public void shutdown(){
+        System.exit(1);
     }
 
     public WindowType getTopWindowType() {
@@ -97,7 +107,7 @@ public class ArmatureModelCreator extends Application{
     }
 
     public FXMLWindow getTopFXMLWindow() {
-        return topFXMLWindow;
+        return this.topFXMLWindow;
     }
 
     void setTopFXMLWindow(FXMLWindow topFXMLWindow) {
