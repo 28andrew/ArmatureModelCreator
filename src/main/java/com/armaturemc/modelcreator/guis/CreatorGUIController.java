@@ -1,4 +1,4 @@
-package com.armaturemc.modelcreator.guis.creatorgui;
+package com.armaturemc.modelcreator.guis;
 
 /**
  * @author Andrew Tran
