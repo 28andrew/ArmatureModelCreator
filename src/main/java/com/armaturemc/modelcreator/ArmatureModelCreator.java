@@ -30,9 +30,9 @@ public class ArmatureModelCreator extends Application{
 
     }
 
-    public FXMLWindow mainApplicationWindow, welcomeWindow;
-    public WindowType topWindowType = WindowType.MAIN;
-    public FXMLWindow topFXMLWindow = null;
+    private FXMLWindow mainApplicationWindow, welcomeWindow;
+    private WindowType topWindowType = WindowType.MAIN;
+    private FXMLWindow topFXMLWindow = null;
     @Override
     public void start(Stage primaryStage) throws Exception {
         System.out.println("Java FX Program is starting...");

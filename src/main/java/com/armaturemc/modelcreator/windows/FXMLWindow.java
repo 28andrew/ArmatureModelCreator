@@ -18,7 +18,7 @@ import java.util.HashMap;
  */
 public class FXMLWindow implements AMCWindow{
     private Stage stage = new Stage();
-    private final FXMLLoader fxmlLoader = new FXMLLoader();
+    private FXMLLoader fxmlLoader = new FXMLLoader();
     private Parent parent;
     private Scene scene;
     private FXMLWindowOption[] FXMLWindowOptions;
@@ -50,6 +50,16 @@ public class FXMLWindow implements AMCWindow{
         if (Arrays.asList(FXMLWindowOptions).contains(com.armaturemc.modelcreator.windows.FXMLWindowOptions.AUTO_START)){
             start();
         }
+    }
+
+    public void changeFXML(String fxml) throws IOException {
+        changeFXML(ArmatureModelCreator.getInstance().getClass().getResourceAsStream("/" + fxml));
+    }
+
+    public void changeFXML(InputStream fxml) throws IOException {
+        fxmlLoader = new FXMLLoader();
+        parent = fxmlLoader.load(fxml);
+        start();
     }
 
     @Override
@@ -112,5 +122,9 @@ public class FXMLWindow implements AMCWindow{
 
     public Window getWindow(){
         return scene.getWindow();
+    }
+
+    public Object getController(){
+        return fxmlLoader.getController();
     }
 }

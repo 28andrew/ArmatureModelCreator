@@ -2,24 +2,53 @@
 
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:controller="com.armaturemc.modelcreator.guis.WelcomeWindowInitialController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
-   <top>
-      <Label text="Armature Model Creator" BorderPane.alignment="CENTER">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-   </top>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.armaturemc.modelcreator.guis.WelcomeWindowInitialController">
    <center>
-      <SplitPane dividerPositions="0.50" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-        <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
-        </items>
+      <SplitPane dividerPositions="0.5" prefHeight="160.0" prefWidth="960.0" BorderPane.alignment="CENTER">
+         <items>
+            <BorderPane prefHeight="300.0" prefWidth="200.0">
+               <center>
+                  <ImageView fx:id="lightImage" fitHeight="571.0" fitWidth="500" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" onMouseClicked="#onLightClicked">
+                     <image>
+                        <Image url="@/Light.png" />
+                     </image>
+                  </ImageView>
+               </center>
+            </BorderPane>
+            <BorderPane prefHeight="300.0" prefWidth="200.0">
+               <center>
+                  <ImageView fx:id="darkImage" fitHeight="512.0" fitWidth="500" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" onMouseClicked="#onDarkClicked">
+                     <image>
+                        <Image url="@/Dark.png" />
+                     </image>
+                  </ImageView>
+               </center>
+            </BorderPane>
+         </items>
       </SplitPane>
    </center>
+   <top>
+      <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="50.0" prefWidth="160.0" BorderPane.alignment="CENTER">
+         <items>
+            <BorderPane prefHeight="25.0" prefWidth="200.0">
+               <center>
+                  <Label text="Armature Model Creator" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+               </center>
+            </BorderPane>
+            <BorderPane prefHeight="25.0" prefWidth="200.0">
+               <center>
+                  <Label text="Select the theme you would like to use, you can always change it later." BorderPane.alignment="CENTER" />
+               </center></BorderPane>
+         </items>
+      </SplitPane>
+   </top>
 </BorderPane>
