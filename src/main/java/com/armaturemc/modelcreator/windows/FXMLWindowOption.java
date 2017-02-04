@@ -6,6 +6,6 @@ import javafx.stage.Stage;
 /**
  * @author Andrew Tran
  */
-public interface AMCWindowOption{
+public interface FXMLWindowOption {
     void run(Stage stage, Scene scene, FXMLWindow fxmlWindow);
 }

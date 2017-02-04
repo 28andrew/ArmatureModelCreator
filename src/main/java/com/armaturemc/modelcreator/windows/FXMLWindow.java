@@ -1,13 +1,11 @@
 package com.armaturemc.modelcreator.windows;
 
 import com.armaturemc.modelcreator.ArmatureModelCreator;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,33 +21,33 @@ public class FXMLWindow implements AMCWindow{
     private final FXMLLoader fxmlLoader = new FXMLLoader();
     private Parent parent;
     private Scene scene;
-    private AMCWindowOption[] amcWindowOptions;
+    private FXMLWindowOption[] FXMLWindowOptions;
     protected HashMap<String,Object> optionStorage = new HashMap<>();
     private ArrayList<ClosingAction> closingActions = new ArrayList<>();
 
-    public static FXMLWindow fromArmatureMCFile(String fxmlFile, AMCWindowOption... amcWindowOptions) throws IOException {
-        return fromInputStream(ArmatureModelCreator.getInstance().getClass().getResourceAsStream("/" + fxmlFile), amcWindowOptions);
+    public static FXMLWindow fromArmatureMCFile(String fxmlFile, FXMLWindowOption... FXMLWindowOptions) throws IOException {
+        return fromInputStream(ArmatureModelCreator.getInstance().getClass().getResourceAsStream("/" + fxmlFile), FXMLWindowOptions);
     }
 
-    public static FXMLWindow fromInputStream(InputStream inputStream, AMCWindowOption... amcWindowOptions) throws  IOException{
-        return new FXMLWindow(inputStream, amcWindowOptions);
+    public static FXMLWindow fromInputStream(InputStream inputStream, FXMLWindowOption... FXMLWindowOptions) throws  IOException{
+        return new FXMLWindow(inputStream, FXMLWindowOptions);
     }
 
-    public static FXMLWindow fromExistingStage(Object fxml, Stage stage, AMCWindowOption... amcWindowOptions) throws IOException {
+    public static FXMLWindow fromExistingStage(Object fxml, Stage stage, FXMLWindowOption... FXMLWindowOptions) throws IOException {
         FXMLWindow fxmlWindow = null;
         if (fxml instanceof String){
-            fxmlWindow = fromArmatureMCFile((String) fxml, amcWindowOptions);
+            fxmlWindow = fromArmatureMCFile((String) fxml, FXMLWindowOptions);
         }else if (fxml instanceof InputStream){
-            fxmlWindow = new FXMLWindow((InputStream) fxml, amcWindowOptions);
+            fxmlWindow = new FXMLWindow((InputStream) fxml, FXMLWindowOptions);
         }
         fxmlWindow.setStage(stage);
         return fxmlWindow;
     }
 
-    FXMLWindow(InputStream fxml, AMCWindowOption... amcWindowOptions) throws IOException {
+    FXMLWindow(InputStream fxml, FXMLWindowOption... FXMLWindowOptions) throws IOException {
         parent = fxmlLoader.load(fxml);
-        this.amcWindowOptions = amcWindowOptions;
-        if (Arrays.asList(amcWindowOptions).contains(AMCWindowOptions.AUTO_START)){
+        this.FXMLWindowOptions = FXMLWindowOptions;
+        if (Arrays.asList(FXMLWindowOptions).contains(com.armaturemc.modelcreator.windows.FXMLWindowOptions.AUTO_START)){
             start();
         }
     }
@@ -58,9 +56,9 @@ public class FXMLWindow implements AMCWindow{
     public void start() {
         scene = new Scene(parent);
         stage.setScene(scene);
-        if (amcWindowOptions != null){
-            for (AMCWindowOption amcWindowOption : getAmcWindowOptions()){
-                amcWindowOption.run(stage, scene, this);
+        if (FXMLWindowOptions != null){
+            for (FXMLWindowOption FXMLWindowOption : getFXMLWindowOptions()){
+                FXMLWindowOption.run(stage, scene, this);
             }
         }
         stage.show();
@@ -76,12 +74,12 @@ public class FXMLWindow implements AMCWindow{
         closingActions.add(closingAction);
     }
 
-    public AMCWindowOption[] getAmcWindowOptions() {
-        return amcWindowOptions;
+    public FXMLWindowOption[] getFXMLWindowOptions() {
+        return FXMLWindowOptions;
     }
 
-    public void setAmcWindowOptions(AMCWindowOption[] amcWindowOptions) {
-        this.amcWindowOptions = amcWindowOptions;
+    public void setFXMLWindowOptions(FXMLWindowOption[] FXMLWindowOptions) {
+        this.FXMLWindowOptions = FXMLWindowOptions;
     }
 
     public Scene getScene() {

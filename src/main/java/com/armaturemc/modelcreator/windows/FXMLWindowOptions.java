@@ -1,45 +1,47 @@
 package com.armaturemc.modelcreator.windows;
 
 import com.armaturemc.modelcreator.ArmatureModelCreator;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.stage.*;
 
 /**
  * @author Andrew Tran
  */
-public class AMCWindowOptions {
-    public static AMCWindowOption MAXIMIZED = (stage,scene, fxmlWindow) -> stage.setMaximized(true);
-    public static AMCWindowOption NOT_MAXIMIZED = (stage,scene, fxmlWindow) -> stage.setMaximized(false);
-    public static AMCWindowOption FOCUSED = (stage, scene, fxmlWindow) -> stage.requestFocus();
-    public static AMCWindowOption AUTO_START = (stage, scene, fxmlWindow) -> {};
+public class FXMLWindowOptions {
+    public static FXMLWindowOption MAXIMIZED = (stage, scene, fxmlWindow) -> stage.setMaximized(true);
+    public static FXMLWindowOption NOT_MAXIMIZED = (stage, scene, fxmlWindow) -> stage.setMaximized(false);
+    public static FXMLWindowOption FOCUSED = (stage, scene, fxmlWindow) -> stage.requestFocus();
+    public static FXMLWindowOption AUTO_START = (stage, scene, fxmlWindow) -> {};
 
-    public static AMCWindowOption name(String name){
+    public static FXMLWindowOption name(String name){
         return (stage, scene, fxmlWindow) -> stage.setTitle(name);
     }
-    public static AMCWindowOption dimensions(Integer width, Integer height){
+    public static FXMLWindowOption dimensions(Integer width, Integer height){
         return (stage, scene, fxmlWindow) -> {
             stage.setWidth(width);
             stage.setHeight(height);
         };
     }
-    public static AMCWindowOption run(WindowRunner windowRunner){
+    public static FXMLWindowOption run(WindowRunner windowRunner){
         return (stage, scene, fxmlWindow) -> windowRunner.run(stage, scene);
     }
-    public static AMCWindowOption modality(Modality modality){
+    public static FXMLWindowOption modality(Modality modality){
         return (stage, scene, fxmlWindow) -> stage.initModality(modality);
     }
-    public static AMCWindowOption owner(Window owner){
+    public static FXMLWindowOption owner(Window owner){
         return (stage, scene, fxmlWindow) -> stage.initOwner(owner);
     }
-    public static AMCWindowOption css(String path){
+    public static FXMLWindowOption css(String path){
         return (stage, scene, fxmlWindow) -> scene.getStylesheets().add(path);
     }
-    public static AMCWindowOption style(StageStyle stageStyle){
+    public static FXMLWindowOption style(StageStyle stageStyle){
         return (stage, scene, fxmlWindow) -> stage.initStyle(stageStyle);
     }
-    public static AMCWindowOption automaticTop(ArmatureModelCreator.WindowType windowType){
-        return new AMCWindowOption() {
+    public static FXMLWindowOption closeAction(ClosingAction closingAction){
+        return (stage, scene, fxmlWindow) -> fxmlWindow.addClosingAction(closingAction);
+    }
+    public static FXMLWindowOption automaticTop(ArmatureModelCreator.WindowType windowType){
+        return new FXMLWindowOption() {
             ArmatureModelCreator.WindowType previousWindowType;
             FXMLWindow previousFXMLWindow;
             @Override

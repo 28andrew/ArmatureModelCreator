@@ -1,11 +1,7 @@
 package com.armaturemc.modelcreator;
 
-import com.armaturemc.modelcreator.windows.AMCWindowOption;
-import com.armaturemc.modelcreator.windows.AMCWindowOptions;
-import com.armaturemc.modelcreator.windows.FXMLWindow;
-import com.armaturemc.modelcreator.windows.WindowRunner;
+import com.armaturemc.modelcreator.windows.*;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -40,32 +36,35 @@ public class ArmatureModelCreator extends Application{
         mainApplicationWindow = FXMLWindow.fromExistingStage(
                 "mainApplication.fxml",
                 primaryStage,
-                AMCWindowOptions.name("Armature Model Creator"),
-                AMCWindowOptions.MAXIMIZED,
-                AMCWindowOptions.modality(Modality.APPLICATION_MODAL),
-                AMCWindowOptions.css("common.css"),
-                AMCWindowOptions.css("themes/light.css"),
-                AMCWindowOptions.automaticTop(WindowType.MAIN),
-                AMCWindowOptions.AUTO_START
+                FXMLWindowOptions.name("Armature Model Creator"),
+                FXMLWindowOptions.MAXIMIZED,
+                FXMLWindowOptions.modality(Modality.APPLICATION_MODAL),
+                FXMLWindowOptions.css("common.css"),
+                FXMLWindowOptions.css("themes/light.css"),
+                FXMLWindowOptions.automaticTop(WindowType.MAIN),
+                FXMLWindowOptions.AUTO_START
         );
         welcomeWindow = FXMLWindow.fromArmatureMCFile(
                 "welcomeWindowInitial.fxml",
-                AMCWindowOptions.name("Welcome to Armature Model Creator"),
-                AMCWindowOptions.dimensions(960, 720),
-                AMCWindowOptions.style(StageStyle.UTILITY),
-                AMCWindowOptions.modality(Modality.WINDOW_MODAL),
-                AMCWindowOptions.css("common.css"),
-                AMCWindowOptions.owner(mainApplicationWindow.getWindow()),
-                AMCWindowOptions.css("themes/light.css"),
-                AMCWindowOptions.run((stage, scene) -> stage.setOnCloseRequest(event -> {
-                    try {
-                        promptShutdown();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                FXMLWindowOptions.name("Welcome to Armature Model Creator"),
+                FXMLWindowOptions.dimensions(960, 720),
+                FXMLWindowOptions.style(StageStyle.UTILITY),
+                FXMLWindowOptions.modality(Modality.WINDOW_MODAL),
+                FXMLWindowOptions.css("common.css"),
+                FXMLWindowOptions.owner(mainApplicationWindow.getWindow()),
+                FXMLWindowOptions.css("themes/light.css"),
+                FXMLWindowOptions.closeAction(new ClosingAction() {
+                    @Override
+                    public void close(Stage stage, Scene scene, FXMLWindow fxmlWindow, WindowEvent windowEvent) {
+                        try {
+                            promptShutdown();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
-                })),
-                AMCWindowOptions.automaticTop(WindowType.WELCOME_INITIAL),
-                AMCWindowOptions.AUTO_START
+                }),
+                FXMLWindowOptions.automaticTop(WindowType.WELCOME_INITIAL),
+                FXMLWindowOptions.AUTO_START
         );
     }
 
@@ -78,14 +77,14 @@ public class ArmatureModelCreator extends Application{
     public void promptShutdown() throws IOException {
         FXMLWindow.fromArmatureMCFile(
             "promptShutdown.fxml",
-                AMCWindowOptions.name("Confirm Shutdown"),
-                AMCWindowOptions.dimensions(240, 120),
-                AMCWindowOptions.modality(Modality.WINDOW_MODAL),
-                AMCWindowOptions.css("common.css"),
-                AMCWindowOptions.owner(mainApplicationWindow.getWindow()),
-                AMCWindowOptions.css("themes/light.css"),
-                AMCWindowOptions.automaticTop(WindowType.PROMPT_SHUTDOWN),
-                AMCWindowOptions.AUTO_START
+                FXMLWindowOptions.name("Confirm Shutdown"),
+                FXMLWindowOptions.dimensions(480, 240),
+                FXMLWindowOptions.modality(Modality.WINDOW_MODAL),
+                FXMLWindowOptions.css("common.css"),
+                FXMLWindowOptions.owner(mainApplicationWindow.getWindow()),
+                FXMLWindowOptions.css("themes/light.css"),
+                FXMLWindowOptions.automaticTop(WindowType.PROMPT_SHUTDOWN),
+                FXMLWindowOptions.AUTO_START
         );
     }
 
