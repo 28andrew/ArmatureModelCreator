@@ -1,8 +1,7 @@
 package com.armaturemc.modelcreator;
 
 import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -21,15 +20,26 @@ public class ArmatureModelCreator extends Application{
 
     }
 
-    public AMCWindow mainApplicationWindow, welcomeWindow;
+    public FXMLWindow mainApplicationWindow, welcomeWindow;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        mainApplicationWindow = FXMLWindow.fromExistingStage("mainApplication.fxml",
+        mainApplicationWindow = FXMLWindow.fromExistingStage(
+                "mainApplication.fxml",
                 primaryStage,
                 AMCWindowOptions.name("Armature Model Creator"),
                 AMCWindowOptions.MAXIMIZED,
-                AMCWindowOptions.AUTO_START);
+                AMCWindowOptions.modality(Modality.APPLICATION_MODAL),
+                AMCWindowOptions.AUTO_START
+        );
+        welcomeWindow = FXMLWindow.fromArmatureMCFile(
+                "welcomeWindow.fxml",
+                AMCWindowOptions.name("Welcome to Armature Model Creator"),
+                AMCWindowOptions.dimensions(640, 480),
+                AMCWindowOptions.modality(Modality.WINDOW_MODAL),
+                AMCWindowOptions.owner(mainApplicationWindow.getWindow()),
+                AMCWindowOptions.AUTO_START
+        );
     }
 
 }
