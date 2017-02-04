@@ -1,7 +1,9 @@
 package com.armaturemc.modelcreator;
 
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 /**
  * @author Andrew Tran
@@ -20,5 +22,14 @@ public class AMCWindowOptions {
             stage.setWidth(width);
             stage.setHeight(height);
         };
+    }
+    public static AMCWindowOption run(WindowRunner windowRunner){
+        return (stage, scene) -> windowRunner.run(stage, scene);
+    }
+    public static AMCWindowOption modality(Modality modality){
+        return (stage, scene) -> stage.initModality(modality);
+    }
+    public static AMCWindowOption owner(Window owner){
+        return (stage, scene) -> stage.initOwner(owner);
     }
 }
