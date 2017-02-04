@@ -1,4 +1,4 @@
-package com.armaturemc.modelcreator;
+package com.armaturemc.modelcreator.windows;
 
 /**
  * @author Andrew Tran

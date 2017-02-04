@@ -1,5 +1,6 @@
-package com.armaturemc.modelcreator;
+package com.armaturemc.modelcreator.windows;
 
+import com.armaturemc.modelcreator.ArmatureModelCreator;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;

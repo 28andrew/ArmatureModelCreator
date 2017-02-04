@@ -1,5 +1,7 @@
 package com.armaturemc.modelcreator;
 
+import com.armaturemc.modelcreator.windows.AMCWindowOptions;
+import com.armaturemc.modelcreator.windows.FXMLWindow;
 import javafx.application.Application;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
