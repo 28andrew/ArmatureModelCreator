@@ -30,6 +30,7 @@ public class ArmatureModelCreator extends Application{
                 AMCWindowOptions.name("Armature Model Creator"),
                 AMCWindowOptions.MAXIMIZED,
                 AMCWindowOptions.modality(Modality.APPLICATION_MODAL),
+                AMCWindowOptions.css("themes/light.css"),
                 AMCWindowOptions.AUTO_START
         );
         welcomeWindow = FXMLWindow.fromArmatureMCFile(
@@ -38,6 +39,7 @@ public class ArmatureModelCreator extends Application{
                 AMCWindowOptions.dimensions(640, 480),
                 AMCWindowOptions.modality(Modality.WINDOW_MODAL),
                 AMCWindowOptions.owner(mainApplicationWindow.getWindow()),
+                AMCWindowOptions.css("themes/light.css"),
                 AMCWindowOptions.AUTO_START
         );
     }
