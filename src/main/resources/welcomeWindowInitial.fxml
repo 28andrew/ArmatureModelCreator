@@ -46,7 +46,7 @@
             </BorderPane>
             <BorderPane prefHeight="25.0" prefWidth="200.0">
                <center>
-                  <Label text="Select the theme you would like to use, you can always change it later." BorderPane.alignment="CENTER" />
+                  <Label text="Select the theme that you would like to use, you can always change it later." BorderPane.alignment="CENTER" />
                </center></BorderPane>
          </items>
       </SplitPane>

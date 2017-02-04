@@ -1,7 +1,10 @@
-.important-button{
-    -fx-background-color: #515557;
-    -fx-background-radius: 5,5,4;
-    -fx-background-insets: 0 0 -1 0,0,1;
-    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
-    -fx-text-alignment: center;
+.root, .border-pane, .split-pane {
+    -fx-background-color: #F4F4F4;
+}
+
+.split-pane:horizontal > .split-pane-divider {
+   -fx-background-color: #F4F4F4;
+}
+.split-pane:vertical > .split-pane-divider {
+   -fx-background-color: #F4F4F4;
 }

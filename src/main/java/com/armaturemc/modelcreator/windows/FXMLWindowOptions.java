@@ -15,7 +15,7 @@ public class FXMLWindowOptions {
     public static FXMLWindowOption NOT_MAXIMIZED = (stage, scene, fxmlWindow) -> stage.setMaximized(false);
     public static FXMLWindowOption FOCUSED = (stage, scene, fxmlWindow) -> stage.requestFocus();
     public static FXMLWindowOption AUTO_START = (stage, scene, fxmlWindow) -> {};
-
+    public static FXMLWindowOption AUTO_ADD = (stage, scene, fxmlWindow) -> ArmatureModelCreator.getInstance().addWindow(fxmlWindow);
     public static FXMLWindowOption name(String name){
         return (stage, scene, fxmlWindow) -> stage.setTitle(name);
     }

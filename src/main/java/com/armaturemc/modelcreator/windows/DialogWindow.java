@@ -54,6 +54,7 @@ public class DialogWindow implements AMCWindow{
         for (DialogWindowOption dialogWindowOption : dialogWindowOptions){
             dialogWindowOption.run(getAlert(), this);
         }
+        alert.getDialogPane().getStyleClass().add("all-dialog");
         Optional<ButtonType> result = alert.showAndWait();
         if (dialogWindowHandler != null){
             dialogWindowHandler.handle(result, this);

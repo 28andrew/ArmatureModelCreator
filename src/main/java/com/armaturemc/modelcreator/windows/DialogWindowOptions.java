@@ -1,5 +1,6 @@
 package com.armaturemc.modelcreator.windows;
 
+import com.armaturemc.modelcreator.ArmatureModelCreator;
 import javafx.scene.control.Alert;
 import javafx.stage.Modality;
 import javafx.stage.StageStyle;
@@ -12,6 +13,12 @@ public class DialogWindowOptions {
     public static DialogWindowOption title(String title){
         return (alert, dialogWindow) -> alert.setTitle(title);
     }
+
+    public static DialogWindowOption css(String cssRawPath){
+        return (alert, dialogWindow) -> alert.getDialogPane().getStylesheets().add(cssRawPath);
+    }
+
+    public static DialogWindowOption AUTO_ADD = (alert, dialogWindow) -> ArmatureModelCreator.getInstance().addDialog(dialogWindow);
 
     public static DialogWindowOption headerText(String headerText){
         return (alert, dialogWindow) -> alert.setHeaderText(headerText);

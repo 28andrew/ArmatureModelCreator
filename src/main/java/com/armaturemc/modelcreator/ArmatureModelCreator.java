@@ -1,9 +1,8 @@
 package com.armaturemc.modelcreator;
 
-import com.armaturemc.modelcreator.windows.DialogWindow;
-import com.armaturemc.modelcreator.windows.DialogWindowOptions;
-import com.armaturemc.modelcreator.windows.FXMLWindow;
-import com.armaturemc.modelcreator.windows.FXMLWindowOptions;
+import com.armaturemc.modelcreator.config.AMCConfig;
+import com.armaturemc.modelcreator.themes.Theme;
+import com.armaturemc.modelcreator.windows.*;
 import javafx.application.Application;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
@@ -11,8 +10,12 @@ import javafx.scene.control.ButtonType;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.yaml.snakeyaml.Yaml;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author Andrew Tran
@@ -27,12 +30,18 @@ public class ArmatureModelCreator extends Application{
     public static void main(String[] args){
         instance = new ArmatureModelCreator();
         launch(args);
-
     }
 
+    private ArrayList<FXMLWindow> windows = new ArrayList<>();
+    private ArrayList<DialogWindow> dialogWindows = new ArrayList<>();
     private FXMLWindow mainApplicationWindow, welcomeWindow;
     private WindowType topWindowType = WindowType.MAIN;
     private FXMLWindow topFXMLWindow = null;
+
+    private Yaml yaml = new Yaml();
+
+    private String currentThemeRawPath = "themes/light.css";
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         System.out.println("Java FX Program is starting...");
@@ -43,9 +52,10 @@ public class ArmatureModelCreator extends Application{
                 FXMLWindowOptions.MAXIMIZED,
                 FXMLWindowOptions.modality(Modality.APPLICATION_MODAL),
                 FXMLWindowOptions.css("common.css"),
-                FXMLWindowOptions.css("themes/light.css"),
+                FXMLWindowOptions.css(currentThemeRawPath),
                 FXMLWindowOptions.promptShutdown(),
                 FXMLWindowOptions.automaticTop(WindowType.MAIN),
+                FXMLWindowOptions.AUTO_ADD,
                 FXMLWindowOptions.AUTO_START
         );
         welcomeWindow = FXMLWindow.fromArmatureMCFile(
@@ -55,12 +65,30 @@ public class ArmatureModelCreator extends Application{
                 FXMLWindowOptions.style(StageStyle.UTILITY),
                 FXMLWindowOptions.modality(Modality.WINDOW_MODAL),
                 FXMLWindowOptions.css("common.css"),
+                FXMLWindowOptions.css(currentThemeRawPath),
                 FXMLWindowOptions.owner(mainApplicationWindow.getWindow()),
-                FXMLWindowOptions.css("themes/light.css"),
                 FXMLWindowOptions.promptShutdown(),
                 FXMLWindowOptions.automaticTop(WindowType.WELCOME_INITIAL),
+                FXMLWindowOptions.AUTO_ADD,
                 FXMLWindowOptions.AUTO_START
         );
+    }
+
+    public void updateTheme(Theme theme){
+        for (FXMLWindow fxmlWindow : getAllWindows()){
+            System.out.println("Applying to " + fxmlWindow.getController().getClass().getCanonicalName());
+            fxmlWindow.getScene().getStylesheets().remove(currentThemeRawPath);
+            theme.apply(fxmlWindow);
+        }
+        for (DialogWindow dialogWindow : getAllDialogs()){
+            dialogWindow.getAlert().getDialogPane().getStylesheets().remove(currentThemeRawPath);
+            theme.apply(dialogWindow);
+        }
+        currentThemeRawPath = theme.getPath();
+    }
+
+    public String getCurrentThemeRawPath() {
+        return currentThemeRawPath;
     }
 
     public void setTopWindow(WindowType windowType, FXMLWindow fxmlWindow){
@@ -90,8 +118,30 @@ public class ArmatureModelCreator extends Application{
                     shutdown();
                 }
             }),
+            DialogWindowOptions.css(currentThemeRawPath),
+            DialogWindowOptions.AUTO_ADD,
             DialogWindowOptions.AUTO_START
         );
+    }
+
+    public List<DialogWindow> getAllDialogs(){
+        return Collections.unmodifiableList(dialogWindows);
+    }
+
+    public void addWindow(FXMLWindow... fxmlWindows){
+        for (FXMLWindow fxmlWindow : fxmlWindows){
+            windows.add(fxmlWindow);
+        }
+    }
+
+    public void addDialog(DialogWindow... dialogWindows){
+        for (DialogWindow dialogWindow : dialogWindows){
+            this.dialogWindows.add(dialogWindow);
+        }
+    }
+
+    public List<FXMLWindow> getAllWindows(){
+        return Collections.unmodifiableList(windows);
     }
 
     public void shutdown(){
@@ -116,5 +166,9 @@ public class ArmatureModelCreator extends Application{
 
     public enum WindowType{
         MAIN, WELCOME_INITIAL, PROMPT_SHUTDOWN
+    }
+
+    public Yaml getYaml() {
+        return yaml;
     }
 }
