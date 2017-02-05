@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.geometry.Insets?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="720" minWidth="960" prefHeight="720.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.armaturemc.modelcreator.guis.WelcomeWindowInitialController">
    <top>
       <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="100.0" prefWidth="960.0" BorderPane.alignment="CENTER">
@@ -54,6 +55,9 @@
    </center>
    <bottom>
       <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <padding>
+            <Insets bottom="15" left="15" right="15" top="15" />
+         </padding>
         <buttons>
           <Button fx:id="nextButton" mnemonicParsing="false" onAction="#onButtonAction" text="Next" />
         </buttons>
