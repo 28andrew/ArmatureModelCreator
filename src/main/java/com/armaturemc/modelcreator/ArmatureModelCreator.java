@@ -61,7 +61,7 @@ public class ArmatureModelCreator extends Application{
         welcomeWindow = FXMLWindow.fromArmatureMCFile(
                 "welcomewindow/welcomeWindowInitial.fxml",
                 FXMLWindowOptions.name("Welcome to Armature Model Creator"),
-                FXMLWindowOptions.dimensions(1280, 960),
+                FXMLWindowOptions.dimensions(1024, 768),
                 FXMLWindowOptions.style(StageStyle.UTILITY),
                 FXMLWindowOptions.modality(Modality.WINDOW_MODAL),
                 FXMLWindowOptions.css("common.css"),
