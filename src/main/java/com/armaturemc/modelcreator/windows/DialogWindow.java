@@ -37,7 +37,7 @@ public class DialogWindow implements AMCWindow{
         this.alert = alert;
         this.dialogWindowOptions = dialogWindowOptions;
         if (Arrays.asList(dialogWindowOptions).contains(DialogWindowOptions.AUTO_START)){
-            start();
+            start(true);
         }
     }
 
@@ -50,7 +50,7 @@ public class DialogWindow implements AMCWindow{
     }
 
     @Override
-    public void start() {
+    public void start(Boolean firstRun) {
         for (DialogWindowOption dialogWindowOption : dialogWindowOptions){
             dialogWindowOption.run(getAlert(), this);
         }

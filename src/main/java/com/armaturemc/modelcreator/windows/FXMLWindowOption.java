@@ -7,5 +7,5 @@ import javafx.stage.Stage;
  * @author Andrew Tran
  */
 public interface FXMLWindowOption {
-    void run(Stage stage, Scene scene, FXMLWindow fxmlWindow);
+    void run(Stage stage, Scene scene, FXMLWindow fxmlWindow, Boolean firstRun);
 }

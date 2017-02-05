@@ -48,7 +48,7 @@ public class FXMLWindow implements AMCWindow{
         parent = fxmlLoader.load(fxml);
         this.FXMLWindowOptions = FXMLWindowOptions;
         if (Arrays.asList(FXMLWindowOptions).contains(com.armaturemc.modelcreator.windows.FXMLWindowOptions.AUTO_START)){
-            start();
+            start(true);
         }
     }
 
@@ -59,16 +59,16 @@ public class FXMLWindow implements AMCWindow{
     public void changeFXML(InputStream fxml) throws IOException {
         fxmlLoader = new FXMLLoader();
         parent = fxmlLoader.load(fxml);
-        start();
+        start(false);
     }
 
     @Override
-    public void start() {
+    public void start(Boolean firstRun) {
         scene = new Scene(parent);
         stage.setScene(scene);
         if (FXMLWindowOptions != null){
             for (FXMLWindowOption FXMLWindowOption : getFXMLWindowOptions()){
-                FXMLWindowOption.run(stage, scene, this);
+                FXMLWindowOption.run(stage, scene, this, firstRun);
             }
         }
         stage.show();

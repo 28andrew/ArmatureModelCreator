@@ -1,6 +1,5 @@
 package com.armaturemc.modelcreator;
 
-import com.armaturemc.modelcreator.config.AMCConfig;
 import com.armaturemc.modelcreator.themes.Theme;
 import com.armaturemc.modelcreator.windows.*;
 import javafx.application.Application;
@@ -34,13 +33,14 @@ public class ArmatureModelCreator extends Application{
 
     private ArrayList<FXMLWindow> windows = new ArrayList<>();
     private ArrayList<DialogWindow> dialogWindows = new ArrayList<>();
-    private FXMLWindow mainApplicationWindow, welcomeWindow;
+    private static FXMLWindow mainApplicationWindow, welcomeWindow;
     private WindowType topWindowType = WindowType.MAIN;
     private FXMLWindow topFXMLWindow = null;
 
     private Yaml yaml = new Yaml();
 
     private String currentThemeRawPath = "themes/light.css";
+    private Boolean isPromptingShutdown = false;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -59,7 +59,7 @@ public class ArmatureModelCreator extends Application{
                 FXMLWindowOptions.AUTO_START
         );
         welcomeWindow = FXMLWindow.fromArmatureMCFile(
-                "welcomeWindowInitial.fxml",
+                "welcomewindow/welcomeWindowInitial.fxml",
                 FXMLWindowOptions.name("Welcome to Armature Model Creator"),
                 FXMLWindowOptions.dimensions(1280, 960),
                 FXMLWindowOptions.style(StageStyle.UTILITY),
@@ -107,6 +107,10 @@ public class ArmatureModelCreator extends Application{
     }
 
     public void promptShutdown() throws IOException {
+        if (isPromptingShutdown){
+            return;
+        }
+        isPromptingShutdown = true;
         DialogWindow.newDialogWindow(Alert.AlertType.CONFIRMATION, new ButtonType[]{
             new ButtonType("Exit", ButtonBar.ButtonData.APPLY),
             new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE)
@@ -119,6 +123,7 @@ public class ArmatureModelCreator extends Application{
             if (buttonResult.isPresent() && buttonResult.get().getButtonData() == ButtonBar.ButtonData.APPLY){
                     shutdown();
                 }
+                isPromptingShutdown = false;
             }),
             DialogWindowOptions.css(currentThemeRawPath),
             DialogWindowOptions.AUTO_ADD,
@@ -172,5 +177,13 @@ public class ArmatureModelCreator extends Application{
 
     public Yaml getYaml() {
         return yaml;
+    }
+
+    public static FXMLWindow getMainApplicationWindow() {
+        return mainApplicationWindow;
+    }
+
+    public static FXMLWindow getWelcomeWindow() {
+        return welcomeWindow;
     }
 }

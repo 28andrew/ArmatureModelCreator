@@ -14,6 +14,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
+import java.io.IOException;
+
 /**
  * @author Andrew Tran
  */
@@ -47,6 +49,14 @@ public class WelcomeWindowInitialController {
     }
     @FXML
     public void onButtonAction(ActionEvent actionEvent){
-        System.out.println("NEXT");
+        Platform.runLater(() -> {
+            try {
+                ArmatureModelCreator
+                        .getWelcomeWindow()
+                        .changeFXML("welcomewindow/welcomeWindowStepDefaults.fxml");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 }

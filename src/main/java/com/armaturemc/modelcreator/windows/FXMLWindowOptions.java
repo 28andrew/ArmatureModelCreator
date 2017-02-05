@@ -11,37 +11,49 @@ import java.io.IOException;
  * @author Andrew Tran
  */
 public class FXMLWindowOptions {
-    public static FXMLWindowOption MAXIMIZED = (stage, scene, fxmlWindow) -> stage.setMaximized(true);
-    public static FXMLWindowOption NOT_MAXIMIZED = (stage, scene, fxmlWindow) -> stage.setMaximized(false);
-    public static FXMLWindowOption FOCUSED = (stage, scene, fxmlWindow) -> stage.requestFocus();
-    public static FXMLWindowOption AUTO_START = (stage, scene, fxmlWindow) -> {};
-    public static FXMLWindowOption AUTO_ADD = (stage, scene, fxmlWindow) -> ArmatureModelCreator.getInstance().addWindow(fxmlWindow);
+    public static FXMLWindowOption MAXIMIZED = (stage, scene, fxmlWindow, firstRun) -> stage.setMaximized(true);
+    public static FXMLWindowOption NOT_MAXIMIZED = (stage, scene, fxmlWindow, firstRun) -> stage.setMaximized(false);
+    public static FXMLWindowOption FOCUSED = (stage, scene, fxmlWindow, firstRun) -> stage.requestFocus();
+    public static FXMLWindowOption AUTO_START = (stage, scene, fxmlWindow, firstRun) -> {};
+    public static FXMLWindowOption AUTO_ADD = (stage, scene, fxmlWindow, firstRun) -> ArmatureModelCreator.getInstance().addWindow(fxmlWindow);
     public static FXMLWindowOption name(String name){
-        return (stage, scene, fxmlWindow) -> stage.setTitle(name);
+        return (stage, scene, fxmlWindow, firstRun) -> stage.setTitle(name);
     }
     public static FXMLWindowOption dimensions(Integer width, Integer height){
-        return (stage, scene, fxmlWindow) -> {
+        return (stage, scene, fxmlWindow, firstRun) -> {
             stage.setWidth(width);
             stage.setHeight(height);
         };
     }
     public static FXMLWindowOption run(WindowRunner windowRunner){
-        return (stage, scene, fxmlWindow) -> windowRunner.run(stage, scene);
+        return (stage, scene, fxmlWindow, firstRun) -> windowRunner.run(stage, scene);
     }
     public static FXMLWindowOption modality(Modality modality){
-        return (stage, scene, fxmlWindow) -> stage.initModality(modality);
+        return (stage, scene, fxmlWindow, firstRun) -> {
+            if (firstRun){
+                stage.initModality(modality);
+            }
+        };
     }
     public static FXMLWindowOption owner(Window owner){
-        return (stage, scene, fxmlWindow) -> stage.initOwner(owner);
+        return (stage, scene, fxmlWindow, firstRun) -> {
+            if (firstRun){
+                stage.initOwner(owner);
+            }
+        };
     }
     public static FXMLWindowOption css(String path){
-        return (stage, scene, fxmlWindow) -> scene.getStylesheets().add(path);
+        return (stage, scene, fxmlWindow, firstRun) -> scene.getStylesheets().add(path);
     }
     public static FXMLWindowOption style(StageStyle stageStyle){
-        return (stage, scene, fxmlWindow) -> stage.initStyle(stageStyle);
+        return (stage, scene, fxmlWindow, firstRun) -> {
+            if (firstRun){
+                stage.initStyle(stageStyle);
+            }
+        };
     }
     public static FXMLWindowOption closeAction(ClosingAction closingAction){
-        return (stage, scene, fxmlWindow) -> fxmlWindow.addClosingAction(closingAction);
+        return (stage, scene, fxmlWindow, firstRun) -> fxmlWindow.addClosingAction(closingAction);
     }
     public static FXMLWindowOption promptShutdown(){
         return FXMLWindowOptions.closeAction((stage, scene, fxmlWindow, windowEvent) -> {
@@ -60,16 +72,13 @@ public class FXMLWindowOptions {
             ArmatureModelCreator.WindowType previousWindowType;
             FXMLWindow previousFXMLWindow;
             @Override
-            public void run(Stage stage, Scene scene, FXMLWindow fxmlWindow) {
+            public void run(Stage stage, Scene scene, FXMLWindow fxmlWindow, Boolean firstRun) {
                 previousWindowType = ArmatureModelCreator.getInstance().getTopWindowType();
                 previousFXMLWindow = ArmatureModelCreator.getInstance().getTopFXMLWindow();
                 ArmatureModelCreator.getInstance().setTopWindow(windowType, fxmlWindow);
-                fxmlWindow.addClosingAction(new ClosingAction() {
-                    @Override
-                    public void close(Stage stage, Scene scene, FXMLWindow fxmlWindow, WindowEvent windowEvent) {
-                        if (previousWindowType != null && previousFXMLWindow != null){
-                            ArmatureModelCreator.getInstance().setTopWindow(previousWindowType, previousFXMLWindow);
-                        }
+                fxmlWindow.addClosingAction((stage1, scene1, fxmlWindow1, windowEvent) -> {
+                    if (previousWindowType != null && previousFXMLWindow != null){
+                        ArmatureModelCreator.getInstance().setTopWindow(previousWindowType, previousFXMLWindow);
                     }
                 });
             }
