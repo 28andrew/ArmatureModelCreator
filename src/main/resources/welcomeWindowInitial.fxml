@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.image.Image?>
@@ -7,48 +9,54 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.armaturemc.modelcreator.guis.WelcomeWindowInitialController">
-   <center>
-      <SplitPane dividerPositions="0.5" prefHeight="160.0" prefWidth="960.0" BorderPane.alignment="CENTER">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="720" minWidth="960" prefHeight="720.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.armaturemc.modelcreator.guis.WelcomeWindowInitialController">
+   <top>
+      <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="100.0" prefWidth="960.0" BorderPane.alignment="CENTER">
          <items>
-            <BorderPane prefHeight="300.0" prefWidth="200.0">
+            <BorderPane prefHeight="200.0" prefWidth="200.0">
                <center>
-                  <ImageView fx:id="lightImage" fitHeight="571.0" fitWidth="500" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" onMouseClicked="#onLightClicked">
-                     <image>
-                        <Image url="@/Light.png" />
-                     </image>
-                  </ImageView>
+                  <Label text="Armature Model Creator" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
                </center>
             </BorderPane>
-            <BorderPane prefHeight="300.0" prefWidth="200.0">
+            <BorderPane prefHeight="200.0" prefWidth="200.0">
                <center>
-                  <ImageView fx:id="darkImage" fitHeight="512.0" fitWidth="500" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" onMouseClicked="#onDarkClicked">
+                  <Label text="Select one of out of these two themes to use for now, you can always change it." BorderPane.alignment="CENTER" />
+               </center>
+            </BorderPane>
+         </items>
+      </SplitPane>
+   </top>
+   <center>
+      <SplitPane dividerPositions="0.5" prefHeight="900.0" prefWidth="900.0" BorderPane.alignment="CENTER">
+         <items>
+            <BorderPane prefHeight="450.0" prefWidth="450.0">
+               <center>
+                  <ImageView fx:id="lightImage" fitHeight="450.0" fitWidth="450.0" onMouseClicked="#onLightClicked" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                     <image>
+                        <Image url="@/Light.png" />
+                     </image></ImageView>
+               </center>
+            </BorderPane>
+            <BorderPane prefHeight="450.0" prefWidth="450.0">
+               <center>
+                  <ImageView fx:id="darkImage" fitHeight="450.0" fitWidth="450.0" onMouseClicked="#onDarkClicked" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                      <image>
                         <Image url="@/Dark.png" />
-                     </image>
-                  </ImageView>
+                     </image></ImageView>
                </center>
             </BorderPane>
          </items>
       </SplitPane>
    </center>
-   <top>
-      <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="50.0" prefWidth="160.0" BorderPane.alignment="CENTER">
-         <items>
-            <BorderPane prefHeight="25.0" prefWidth="200.0">
-               <center>
-                  <Label text="Armature Model Creator" BorderPane.alignment="CENTER">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Label>
-               </center>
-            </BorderPane>
-            <BorderPane prefHeight="25.0" prefWidth="200.0">
-               <center>
-                  <Label text="Select the theme that you would like to use, you can always change it later." BorderPane.alignment="CENTER" />
-               </center></BorderPane>
-         </items>
-      </SplitPane>
-   </top>
+   <bottom>
+      <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <buttons>
+          <Button fx:id="nextButton" mnemonicParsing="false" onAction="#onButtonAction" text="Next" />
+        </buttons>
+      </ButtonBar>
+   </bottom>
 </BorderPane>

@@ -61,7 +61,7 @@ public class ArmatureModelCreator extends Application{
         welcomeWindow = FXMLWindow.fromArmatureMCFile(
                 "welcomeWindowInitial.fxml",
                 FXMLWindowOptions.name("Welcome to Armature Model Creator"),
-                FXMLWindowOptions.dimensions(960, 720),
+                FXMLWindowOptions.dimensions(1280, 960),
                 FXMLWindowOptions.style(StageStyle.UTILITY),
                 FXMLWindowOptions.modality(Modality.WINDOW_MODAL),
                 FXMLWindowOptions.css("common.css"),
@@ -75,8 +75,10 @@ public class ArmatureModelCreator extends Application{
     }
 
     public void updateTheme(Theme theme){
+        if (theme.getPath().equals(currentThemeRawPath)){
+            return;
+        }
         for (FXMLWindow fxmlWindow : getAllWindows()){
-            System.out.println("Applying to " + fxmlWindow.getController().getClass().getCanonicalName());
             fxmlWindow.getScene().getStylesheets().remove(currentThemeRawPath);
             theme.apply(fxmlWindow);
         }
