@@ -1,10 +1,9 @@
-.root, .border-pane, .split-pane {
-    -fx-background-color: #F4F4F4;
+.root {
+    -fx-base: #F4F4F4;
+    -fx-background: #F4F4F4;
+    -fx-control-inner-background: #F4F4F4;
 }
 
-.split-pane:horizontal > .split-pane-divider {
-   -fx-background-color: #F4F4F4;
-}
-.split-pane:vertical > .split-pane-divider {
-   -fx-background-color: #F4F4F4;
+.lightText{
+    -fx-text-fill: #7A7A7A;
 }

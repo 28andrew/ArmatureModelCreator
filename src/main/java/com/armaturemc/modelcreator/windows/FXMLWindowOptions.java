@@ -43,7 +43,11 @@ public class FXMLWindowOptions {
         };
     }
     public static FXMLWindowOption css(String path){
-        return (stage, scene, fxmlWindow, firstRun) -> scene.getStylesheets().add(path);
+        return (stage, scene, fxmlWindow, firstRun) -> {
+            if(firstRun){
+                scene.getStylesheets().add(path);
+            }
+        };
     }
     public static FXMLWindowOption style(StageStyle stageStyle){
         return (stage, scene, fxmlWindow, firstRun) -> {

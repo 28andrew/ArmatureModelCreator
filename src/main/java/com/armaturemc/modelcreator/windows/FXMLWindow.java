@@ -56,10 +56,20 @@ public class FXMLWindow implements AMCWindow{
         changeFXML(ArmatureModelCreator.getInstance().getClass().getResourceAsStream("/" + fxml));
     }
 
+    public void changeFXMLAndCSS(String fxml) throws IOException {
+        changeFXML(ArmatureModelCreator.getInstance().getClass().getResourceAsStream("/" + fxml));
+        runOption(com.armaturemc.modelcreator.windows.FXMLWindowOptions.css("common.css"), true);
+        runOption(com.armaturemc.modelcreator.windows.FXMLWindowOptions.css(ArmatureModelCreator.getInstance().getCurrentThemeRawPath()), true);
+    }
+
     public void changeFXML(InputStream fxml) throws IOException {
         fxmlLoader = new FXMLLoader();
         parent = fxmlLoader.load(fxml);
         start(false);
+    }
+
+    public void runOption(FXMLWindowOption fxmlWindowOption, Boolean firstRun){
+        fxmlWindowOption.run(stage, scene, this, firstRun);
     }
 
     @Override
@@ -67,8 +77,8 @@ public class FXMLWindow implements AMCWindow{
         scene = new Scene(parent);
         stage.setScene(scene);
         if (FXMLWindowOptions != null){
-            for (FXMLWindowOption FXMLWindowOption : getFXMLWindowOptions()){
-                FXMLWindowOption.run(stage, scene, this, firstRun);
+            for (FXMLWindowOption fxmlWindowOption : getFXMLWindowOptions()){
+                runOption(fxmlWindowOption, firstRun);
             }
         }
         stage.show();

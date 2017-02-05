@@ -12,7 +12,7 @@
 <?import javafx.geometry.Insets?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="720" minWidth="960" prefHeight="720.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.armaturemc.modelcreator.guis.WelcomeWindowInitialController">
    <top>
-      <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="100.0" prefWidth="960.0" BorderPane.alignment="CENTER">
+      <SplitPane styleClass="invisible-divider" dividerPositions="0.5" orientation="VERTICAL" prefHeight="100.0" prefWidth="960.0" BorderPane.alignment="CENTER">
          <items>
             <BorderPane prefHeight="200.0" prefWidth="200.0">
                <center>
@@ -32,7 +32,7 @@
       </SplitPane>
    </top>
    <center>
-      <SplitPane dividerPositions="0.5" prefHeight="900.0" prefWidth="900.0" BorderPane.alignment="CENTER">
+      <SplitPane styleClass="invisible-divider" dividerPositions="0.5" prefHeight="900.0" prefWidth="900.0" BorderPane.alignment="CENTER">
          <items>
             <BorderPane prefHeight="450.0" prefWidth="450.0">
                <center>

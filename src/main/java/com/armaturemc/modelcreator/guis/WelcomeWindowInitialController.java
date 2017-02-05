@@ -53,7 +53,7 @@ public class WelcomeWindowInitialController {
             try {
                 ArmatureModelCreator
                         .getWelcomeWindow()
-                        .changeFXML("welcomewindow/welcomeWindowStepDefaults.fxml");
+                        .changeFXMLAndCSS("welcomewindow/welcomeWindowStepDefaults.fxml");
             } catch (IOException e) {
                 e.printStackTrace();
             }
